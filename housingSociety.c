@@ -19,7 +19,9 @@ int main () {
 
     char name[100]; //Name of the housing society. At most 100 
 
-    scanf("%s", &name);
+    fgets(name, sizeof(name), stdin);
+
+    printf("Name successfully saved!\n");
 
     int exit = 0, beginningInput, lastBlankPos = 0, caseOneExit = 0;
     struct Space hS[100]; //At most 100 spaces in our housing society. Housing Society to be called hS in short.
@@ -41,7 +43,7 @@ int main () {
                 case 1:
                     if (lastBlankPos < 100) {
                         while (caseOneExit == 0) {
-                            printf("What type of space do you want to add?\n");
+                            printf("\nWhat type of space do you want to add?\n");
                             printf("[1] Add an Apartment Building\n"); //Max floors: 20
                             printf("[2] Add a School\n"); //Max Floors: 6
                             printf("[3] Add a Park\n"); //No floors
@@ -164,7 +166,7 @@ int addApart(struct Space hS[], int * lastBlankPos) {
         }
     }
 
-    int apartmentAdding = 1, floorChoice, exit = 0;
+    int floorChoice, exit = 0;
 
     for (int i = 0; i < f; i++) {
         hS[(*lastBlankPos)].bd.ap.floors[i].id = i + 1;
