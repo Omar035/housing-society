@@ -170,16 +170,15 @@ void addApart(struct Space hS[], int * lastBlankPos) {
         }
     }
 
-    int floorChoice, exit = 0;
 
     //i is the floor iterator
     //j is types and individualSizes iterator
     for (int i = 0; i < f; i++) {
         printf("\nEnter floor - %d info: \n", i+1);
         
-        int floorChoice, floorExiter = 0;
+        int floorChoice;
 
-        printf("\nHow many items do you want to have in this floor? [Max: 4]\n");
+        printf("\nHow many items do you want to have in this floor? Items include flats, stores, offices and parkings. [Max: 4]\n");
         printf("Enter: ");
         int items;
         scanf("%d", &items);
@@ -199,7 +198,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                 //If sum of the sizes of items already exceeds the original apartment size
                 break;
             } else {
-                printf("Add to this floor:\n");
+                printf("\nAdd item - %d:\n", j+1);
                 printf("[1] Add a Flat\n");
                 printf("[2] Add a Store\n");
                 printf("[3] Add an Office\n");
@@ -217,12 +216,18 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                             printf("Enter size of the flat: ");
                             scanf("%lf", &sizeOfFlat);
 
+                            //Filter for negative inputs
                             while (1) {
-                                if (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) >= 0) { //If [Total - (current size + new flat size)] >= 0 then there is room for more items
-                                    break;
+                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if (sizeOfFlat < 0) {
+                                        printf("Flat size can't be negative! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    } else {
+                                        printf("\nToo big! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    }
                                 } else {
-                                    printf("\nToo big! Enter again: ");
-                                    scanf("%lf", &sizeOfFlat);
+                                    break;
                                 }
                             }
 
@@ -235,11 +240,16 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                             scanf("%lf", &sizeOfFlat);
 
                             while (1) {
-                                if (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) >= 0) { 
-                                    break;
+                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if (sizeOfFlat < 0) {
+                                        printf("Store size can't be negative! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    } else {
+                                        printf("\nToo big! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    }
                                 } else {
-                                    printf("\nToo big! Enter again: ");
-                                    scanf("%lf", &sizeOfFlat);
+                                    break;
                                 }
                             }
 
@@ -252,11 +262,16 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                             scanf("%lf", &sizeOfFlat);
 
                             while (1) {
-                                if (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items), sizeOfFlat)) >= 0) { 
-                                    break;
+                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if (sizeOfFlat < 0) {
+                                        printf("Office size can't be negative! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    } else {
+                                        printf("\nToo big! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    }
                                 } else {
-                                    printf("\nToo big! Enter again: ");
-                                    scanf("%lf", &sizeOfFlat);
+                                    break;
                                 }
                             }
 
@@ -269,11 +284,16 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                             scanf("%lf", &sizeOfFlat);
 
                             while (1) {
-                                if (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) >= 0) { 
-                                    break;
+                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if (sizeOfFlat < 0) {
+                                        printf("Parking size can't be negative! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    } else {
+                                        printf("\nToo big! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    }
                                 } else {
-                                    printf("\nToo big! Enter again: ");
-                                    scanf("%lf", &sizeOfFlat);
+                                    break;
                                 }
                             }
 
@@ -284,8 +304,11 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                         case 5:
                             if (j == 0) {
                                 printf("You're in the first floor now. There's no previous floor!\n");
+                                j-=1; //After this block, i increases to 1 thus skipping inputs for the 0th (1st) floor. To get the user back there, i is decreased by 1 beforehand.
                             } else {
-                                goto previousFloor;
+                                j-=2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
+                                printf("Now you're back to floor - %d\n", j+1);
+                                continue;
                             }
                             break;
                         default:
@@ -297,24 +320,91 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                 }     
             }
         }
-
-        
-
-    previousFloor:
-        i -= 2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
-        continue;
-        
     }
 
+    printf("\nSuccessfully added the apartment: %s\n", building.ap.name);
     (*lastBlankPos) += 1; //Set the new blank position in the housing society array to next position
 }
 
 void addSchool(struct Space hS[], int * lastBlankPos) {
+    hS[(*lastBlankPos)].identifier = 2;
+    printf("\nEnter a name for your school (At most 100 characters): \n");
 
+    stringInputter(building.sc.name);
+
+    printf("\nEnter the address of your school (At most 200 characters): \n");
+
+    stringInputter(building.sc.address);
+
+    
+    printf("\nEnter the size of your school in sq. ft.: ");
+
+    double sz;
+
+    scanf("%lf", &sz);
+
+    while (1) {
+        if (sz <= 0) {
+        //Size can't be zero or less
+            printf("\nInvalid size. Enter again: ");
+            scanf("%lf", &sz);
+        } else {
+            hS[(*lastBlankPos)].size = sz;
+            break;
+        }
+    }
+
+    printf("\nEnter number of floors (At most 6): ");
+
+    int f;
+
+    scanf("%d", &f);
+
+    while (1) {
+        if (f <= 6 && f > 0) {
+        //At least one floor and not more than 6
+            building.sc.numberOfFloors = f;
+            break;
+        } else {
+            printf("\nInvalid number. Enter again: ");
+            scanf("%d", &f);
+        }
+    }
+
+    printf("Successfully added a school.\n");
+    (*lastBlankPos) += 1;
 }
 
 void addPark(struct Space hS[], int * lastBlankPos) {
+    hS[(*lastBlankPos)].identifier = 3;
+    printf("\nEnter a name for your park (At most 100 characters): \n");
 
+    stringInputter(building.pk.name);
+
+    printf("\nEnter the address of your park (At most 200 characters): \n");
+
+    stringInputter(building.pk.address);
+
+    
+    printf("\nEnter the size of your park in sq. ft.: ");
+
+    double sz;
+
+    scanf("%lf", &sz);
+
+    while (1) {
+        if (sz <= 0) {
+        //Size can't be zero or less
+            printf("\nInvalid size. Enter again: ");
+            scanf("%lf", &sz);
+        } else {
+            hS[(*lastBlankPos)].size = sz;
+            break;
+        }
+    }
+
+    printf("Successfully added a park.\n");
+    (*lastBlankPos) += 1;
 }
 
 void addHospital(struct Space hS[], int * lastBlankPos) {
@@ -366,7 +456,3 @@ void stringInputter(char destination[]) {
         }
     }
 }
-
-
-
-
