@@ -19,7 +19,7 @@ int main () {
 
     char name[100]; //Name of the housing society. At most 100 
 
-    fgets(name, sizeof(name), stdin);
+    fgets(name, sizeof(name), stdin); 
 
     printf("\nName successfully saved!\n");
 
@@ -59,7 +59,8 @@ int main () {
                                     case 1:
                                         //Initialize all floor array values as -1 and number of floors = 1
                                         hS[(lastBlankPos)].bd.ap.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.ap.floors, -1, sizeof(hS[(lastBlankPos)].bd.ap.floors));
+                                        memset(hS[(lastBlankPos)].bd.ap.floors->individualSizes, 0, sizeof(hS[(lastBlankPos)].bd.ap.floors->individualSizes));
+                                        memset(hS[(lastBlankPos)].bd.ap.floors->types, -1, sizeof(hS[(lastBlankPos)].bd.ap.floors->types));
                                         
                                         //addApart() will return 1 if everything goes on flow. That is the user properly inputs all floors and floor info correctly and completely.
                                         if (addApart) {
@@ -68,7 +69,7 @@ int main () {
                                         break;
                                     case 2:
                                         hS[(lastBlankPos)].bd.sc.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.sc.floors, -1, sizeof(hS[(lastBlankPos)].bd.sc.floors));
+                                        memset(hS[(lastBlankPos)].bd.sc.floors, 0, sizeof(hS[(lastBlankPos)].bd.sc.floors));
                                         addSchool(hS, &lastBlankPos);
                                         break;
                                     case 3:
@@ -76,7 +77,7 @@ int main () {
                                         break;
                                     case 4:
                                         hS[(lastBlankPos)].bd.hs.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.hs.floors, -1, sizeof(hS[(lastBlankPos)].bd.hs.floors));
+                                        memset(hS[(lastBlankPos)].bd.hs.floors, 0, sizeof(hS[(lastBlankPos)].bd.hs.floors));
                                         addHospital(hS, &lastBlankPos);
                                         break;
                                     case 5:
@@ -129,9 +130,9 @@ int addApart(struct Space hS[], int * lastBlankPos) {
     //Required info: identifier, name, address, floor number
     hS[(*lastBlankPos)].identifier = 1;
     printf("Enter a name for your apartment (At most 100 characters): \n");
-    scanf("%s", &hS[(*lastBlankPos)].bd.ap.name);
+    fgets(hS[(*lastBlankPos)].bd.ap.name, sizeof(hS[(*lastBlankPos)].bd.ap.name), stdin);
     printf("Enter the address of your apartment (At most 200 characters): \n");
-    scanf("%s", &hS[(*lastBlankPos)].bd.ap.address);
+    fgets(hS[(*lastBlankPos)].bd.ap.address, sizeof(hS[(*lastBlankPos)].bd.ap.address), stdin);
     printf("Enter the size of your apartment in sq. ft.: ");
 
     double sz;
@@ -168,46 +169,63 @@ int addApart(struct Space hS[], int * lastBlankPos) {
 
     int floorChoice, exit = 0;
 
+    
     for (int i = 0; i < f; i++) {
-        hS[(*lastBlankPos)].bd.ap.floors[i].id = i + 1;
-        printf("Enter floor-%d info: \n", i+1);
-        printf("[1] Add a Flat\n");
-        printf("[2] Add a Store\n");
-        printf("[3] Add a Parking\n");
-        printf("[4] Add an Office\n");
-        printf("[5] Go to Previous Floor\n");
-        printf("[6] Go Back\n");
-        printf("Ente your choice: ");
+        printf("\nEnter floor-%d info: \n", i+1);
 
-        scanf("%d", &floorChoice);
+        int floorChoice, floorExiter = 0;
+        for (int j = 0; j < 4; j++) {
+            printf("What do you want to add to this floor?\n");
+            printf("[1] Add a Flat\n");
+            printf("[2] Add a Store\n");
+            printf("[3] Add an Office\n");
+            printf("[4] Add a parking\n");
+            printf("[5] Go to previous floor\n");
+            printf("Enter your choice: ");
 
-        while (exit == 0) {
-            if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5 || floorChoice == 6) {
-                switch (floorChoice) {
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        break;
-                    case 6:
+            scanf("%d", &floorChoice);
 
-                        break;
-                    default:
-                        break;
+            while (floorExiter == 0) {
+                if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
+                    switch (floorChoice) {
+                        case 1:
+                            printf("Enter size of the flat: ");
+                            double sizeOfFlat;
+                            scanf("%lf", &sizeOfFlat);
+
+                            while (1) {
+                                if (sizeOfFlat > sz) {
+                                    printf("Too big! Enter again: ");
+                                    scanf("%lf", &sizeOfFlat);
+                                } else {
+                                    break;
+                                }
+                            }
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            break;
+                        case 5:
+                            goto previousFloor;
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    printf("Invalid input. Enter again: ");
+                    scanf("%d", &floorChoice);
                 }
-            } else {
-                printf("Invalid input. Taking you back...\n");
-                continue;
             }
         }
 
-
         
+
+    previousFloor:
+        i -= 2;
+        continue;
         
     }
     
@@ -234,5 +252,9 @@ void getInfo(struct Space hS[], int * lastBlankPos) {
 }
 
 void search(char string[], struct Space hS[], int * lastBlankPos) {
+
+}
+
+int floorSizeVerifier() {
 
 }
