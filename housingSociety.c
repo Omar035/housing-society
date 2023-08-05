@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <string.h>
 #include "structDef.h"
 #include "funcPrototypes.h"
+#include <string.h>
 
 //Housing Society is an array of spaces
 //A space can be a type of building such such as an apartment, a school, a park or a hospital
@@ -115,6 +115,7 @@ int main () {
             }
 
         } else {
+            
             printf("Invalid input! Going back...\n");
             continue;
         }
@@ -127,7 +128,7 @@ int main () {
 
 //Function Definitions:
 int addApart(struct Space hS[], int * lastBlankPos) {
-    //Required info: identifier, name, address, floor number
+    //Required info: identifier, name, address, size, number of floors
     hS[(*lastBlankPos)].identifier = 1;
     printf("Enter a name for your apartment (At most 100 characters): \n");
     fgets(hS[(*lastBlankPos)].bd.ap.name, sizeof(hS[(*lastBlankPos)].bd.ap.name), stdin);
@@ -169,54 +170,128 @@ int addApart(struct Space hS[], int * lastBlankPos) {
 
     int floorChoice, exit = 0;
 
-    
+    //i is the floor iterator
+    //j is types and individualSizes iterator
     for (int i = 0; i < f; i++) {
         printf("\nEnter floor-%d info: \n", i+1);
 
         int floorChoice, floorExiter = 0;
-        for (int j = 0; j < 4; j++) {
-            printf("What do you want to add to this floor?\n");
-            printf("[1] Add a Flat\n");
-            printf("[2] Add a Store\n");
-            printf("[3] Add an Office\n");
-            printf("[4] Add a parking\n");
-            printf("[5] Go to previous floor\n");
-            printf("Enter your choice: ");
 
-            scanf("%d", &floorChoice);
+        printf("How many items do you want to have in this floor? [Max: 4]\n");
+        printf("Enter: ");
+        int items;
+        scanf("%d", &items);
 
-            while (floorExiter == 0) {
-                if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
-                    switch (floorChoice) {
-                        case 1:
-                            printf("Enter size of the flat: ");
-                            double sizeOfFlat;
-                            scanf("%lf", &sizeOfFlat);
+        while (1) {
+            if (items > 0 && items <= 4) {
+                break;
+            } else {
+                printf("Invalid input. Enter again: ");
+                scanf("%d", &items);
+            }
+        }
 
-                            while (1) {
-                                if (sizeOfFlat > sz) {
-                                    printf("Too big! Enter again: ");
-                                    scanf("%lf", &sizeOfFlat);
-                                } else {
-                                    break;
+        for (int j = 0; j < items; j++) {
+            
+            if (currentFloorSizeChecker(hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes, items) >= sz) {
+                //If sum of the sizes of items already exceeds the original apartment size
+                break;
+            } else {
+                printf("Add to this floor:\n");
+                printf("[1] Add a Flat\n");
+                printf("[2] Add a Store\n");
+                printf("[3] Add an Office\n");
+                printf("[4] Add a parking\n");
+                printf("[5] Go to previous floor\n");
+                printf("Enter your choice: ");
+
+                scanf("%d", &floorChoice);
+
+                while (floorExiter == 0) {
+                    if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
+                        switch (floorChoice) {
+                            case 1:
+                                printf("Enter size of the flat: ");
+                                double sizeOfFlat;
+                                scanf("%lf", &sizeOfFlat);
+
+                                while (1) {
+                                    if (sizeOfFlat > sizeLeft(hS[(*lastBlankPos)].size, currentFloorSizeChecker(hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes, items))) {
+                                        printf("Too big! Enter again: ");
+                                        scanf("%lf", &sizeOfFlat);
+                                    } else {
+                                        break;
+                                    }
                                 }
-                            }
-                            break;
-                        case 2:
-                            break;
-                        case 3:
-                            break;
-                        case 4:
-                            break;
-                        case 5:
-                            goto previousFloor;
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    printf("Invalid input. Enter again: ");
-                    scanf("%d", &floorChoice);
+
+                                hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes[j] = sizeOfFlat;
+                                hS[(*lastBlankPos)].bd.ap.floors[i].types[j] = -100; //-100 for flat type
+
+                                break;
+                            case 2:
+                                printf("Enter size of the store: ");
+                                double sizeOfStore;
+                                scanf("%lf", &sizeOfStore);
+
+                                while (1) {
+                                    if (sizeOfStore > sizeLeft(hS[(*lastBlankPos)].size, currentFloorSizeChecker(hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes, items))) {
+                                        printf("Too big! Enter again: ");
+                                        scanf("%lf", &sizeOfStore);
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes[j] = sizeOfStore;
+                                hS[(*lastBlankPos)].bd.ap.floors[i].types[j] = -200; //-100 for store type
+
+                                break;
+                            case 3:
+                                printf("Enter size of the office: ");
+                                double sizeOfOffice;
+                                scanf("%lf", &sizeOfOffice);
+
+                                while (1) {
+                                    if (sizeOfOffice > sizeLeft(hS[(*lastBlankPos)].size, currentFloorSizeChecker(hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes, items))) {
+                                        printf("Too big! Enter again: ");
+                                        scanf("%lf", &sizeOfOffice);
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes[j] = sizeOfOffice;
+                                hS[(*lastBlankPos)].bd.ap.floors[i].types[j] = -300; //-300 for office type
+
+                                break;
+                            case 4:
+                                printf("Enter size of the parking: ");
+                                double sizeOfParking;
+                                scanf("%lf", &sizeOfParking);
+
+                                while (1) {
+                                    if (sizeOfParking > sizeLeft(hS[(*lastBlankPos)].size, currentFloorSizeChecker(hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes, items))) {
+                                        printf("Too big! Enter again: ");
+                                        scanf("%lf", &sizeOfParking);
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                hS[(*lastBlankPos)].bd.ap.floors[i].individualSizes[j] = sizeOfParking;
+                                hS[(*lastBlankPos)].bd.ap.floors[i].types[j] = -400; //-100 for parking type
+
+                                break;
+                            case 5:
+                                goto previousFloor;
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        printf("Invalid input. Enter again: ");
+                        scanf("%d", &floorChoice);
+                    }     
                 }
             }
         }
@@ -228,6 +303,8 @@ int addApart(struct Space hS[], int * lastBlankPos) {
         continue;
         
     }
+
+    (*lastBlankPos) += 1;
     
 }
 
@@ -255,6 +332,18 @@ void search(char string[], struct Space hS[], int * lastBlankPos) {
 
 }
 
-int floorSizeVerifier() {
+double currentFloorSizeChecker(double arr[], int limit) {
+    double totalSize = 0;
 
+    for (int i = 0; i < limit; i++) {
+        totalSize += arr[i];
+    }
+
+    return totalSize;
 }
+
+double sizeLeft(double originalFloorSize, double currentFloorSize) {
+    return originalFloorSize - currentFloorSize;
+}
+
+
