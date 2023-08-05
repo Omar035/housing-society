@@ -125,3 +125,115 @@ int main () {
 }
 
 
+//Function Definitions:
+int addApart(struct Space hS[], int * lastBlankPos) {
+    //Required info: identifier, name, address, floor number
+    hS[(*lastBlankPos)].identifier = 1;
+    printf("Enter a name for your apartment (At most 100 characters): \n");
+    scanf("%s", &hS[(*lastBlankPos)].bd.ap.name);
+    printf("Enter the address of your apartment (At most 200 characters): \n");
+    scanf("%s", &hS[(*lastBlankPos)].bd.ap.address);
+    printf("Enter the size of your apartment in sq. ft.: ");
+
+    double sz;
+
+    scanf("%lf", &sz);
+
+    while (1) {
+        if (sz <= 0) {
+        //Size can't be zero or less
+            printf("Invalid size. Enter again: ");
+            scanf("%lf", &sz);
+        } else {
+            hS[(*lastBlankPos)].size = sz;
+            break;
+        }
+    }
+
+    printf("Enter number of floors (At most 20): ");
+
+    int f;
+
+    scanf("%d", &f);
+
+    while (1) {
+        if (f <= 20 && f > 0) {
+        //At least one floor and not more than 20
+            hS[(*lastBlankPos)].bd.ap.numberOfFloors = f;
+            break;
+        } else {
+            printf("Invalid number. Enter again: ");
+            scanf("%d", &f);
+        }
+    }
+
+    int apartmentAdding = 1, floorChoice, exit = 0;
+
+    for (int i = 0; i < f; i++) {
+        hS[(*lastBlankPos)].bd.ap.floors[i].id = i + 1;
+        printf("Enter floor-%d info: \n", i+1);
+        printf("[1] Add a Flat\n");
+        printf("[2] Add a Store\n");
+        printf("[3] Add a Parking\n");
+        printf("[4] Add an Office\n");
+        printf("[5] Go to Previous Floor\n");
+        printf("[6] Go Back\n");
+        printf("Ente your choice: ");
+
+        scanf("%d", &floorChoice);
+
+        while (exit = 0) {
+            if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5 || floorChoice == 6) {
+                switch (floorChoice) {
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        break;
+                    case 6:
+
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                printf("Invalid input. Taking you back...\n");
+                continue;
+            }
+        }
+
+
+        
+        
+    }
+    
+}
+
+void addSchool(struct Space hS[], int * lastBlankPos) {
+
+}
+
+void addPark(struct Space hS[], int * lastBlankPos) {
+
+}
+
+void addHospital(struct Space hS[], int * lastBlankPos) {
+
+}
+
+void listItems(struct Space hS[], int * lastBlankPos) {
+
+}
+
+void getInfo(struct Space hS[], int * lastBlankPos) {
+
+}
+
+void search(char string[], struct Space hS[], int * lastBlankPos) {
+
+}
