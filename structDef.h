@@ -4,7 +4,6 @@ struct Space {
     double size;
 
     struct Floor {
-            int id; //which floor
             int items; //How many types in a particular floor; At most 4 [Store, Parking, Flat, Office]
             double size;
             int types[4];
