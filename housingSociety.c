@@ -21,7 +21,7 @@ int main () {
 
     fgets(name, sizeof(name), stdin);
 
-    printf("Name successfully saved!\n");
+    printf("\nName successfully saved!\n");
 
     int exit = 0, beginningInput, lastBlankPos = 0, caseOneExit = 0;
     struct Space hS[100]; //At most 100 spaces in our housing society. Housing Society to be called hS in short.
