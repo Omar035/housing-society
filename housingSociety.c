@@ -198,127 +198,132 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                 //If sum of the sizes of items already exceeds the original apartment size
                 break;
             } else {
-                printf("\nAdd item - %d:\n", j+1);
-                printf("[1] Add a Flat\n");
-                printf("[2] Add a Store\n");
-                printf("[3] Add an Office\n");
-                printf("[4] Add a parking\n");
-                printf("[5] Go to previous floor\n");
-                printf("Enter your choice: ");
+                int floorExit = 0;
+                while (floorExit == 0) {
+                    printf("\nAdd item - %d:\n", j+1);
+                    printf("[1] Add a Flat\n");
+                    printf("[2] Add a Store\n");
+                    printf("[3] Add an Office\n");
+                    printf("[4] Add a parking\n");
+                    printf("[5] Go to previous floor\n");
+                    printf("Enter your choice: ");
 
-                scanf("%d", &floorChoice);
-
-                double sizeOfFlat;
-
-                if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
-                    switch (floorChoice) {
-                        case 1:
-                            printf("Enter size of the flat: ");
-                            scanf("%lf", &sizeOfFlat);
-
-                            //Filter for negative inputs
-                            while (1) {
-                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
-                                    if (sizeOfFlat < 0) {
-                                        printf("Flat size can't be negative! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    } else {
-                                        printf("\nToo big! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-
-                            building.ap.floors[i].individualSizes[j] = sizeOfFlat;
-                            building.ap.floors[i].types[j] = -100; //-100 for flat type
-
-                            break;
-                        case 2:
-                            printf("Enter size of the store: ");
-                            scanf("%lf", &sizeOfFlat);
-
-                            while (1) {
-                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
-                                    if (sizeOfFlat < 0) {
-                                        printf("Store size can't be negative! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    } else {
-                                        printf("\nToo big! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-
-                            building.ap.floors[i].individualSizes[j] = sizeOfFlat;
-                            building.ap.floors[i].types[j] = -200; 
-
-                            break;
-                        case 3:
-                            printf("Enter size of the office: ");
-                            scanf("%lf", &sizeOfFlat);
-
-                            while (1) {
-                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
-                                    if (sizeOfFlat < 0) {
-                                        printf("Office size can't be negative! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    } else {
-                                        printf("\nToo big! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-
-                            building.ap.floors[i].individualSizes[j] = sizeOfFlat;
-                            building.ap.floors[i].types[j] = -300; 
-
-                            break;
-                        case 4:
-                            printf("Enter size of the parking: ");
-                            scanf("%lf", &sizeOfFlat);
-
-                            while (1) {
-                                if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
-                                    if (sizeOfFlat < 0) {
-                                        printf("Parking size can't be negative! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    } else {
-                                        printf("\nToo big! Enter again: ");
-                                        scanf("%lf", &sizeOfFlat);
-                                    }
-                                } else {
-                                    break;
-                                }
-                            }
-
-                            building.ap.floors[i].individualSizes[j] = sizeOfFlat;
-                            building.ap.floors[i].types[j] = -400;
-                            building.ap.floors->floorSize = currentFloorSizeChecker(building.ap.floors->individualSizes, items); //Store the floor size. It can be smaller than actual space size. Because the user can leave some floor space empty. 
-
-                            break;
-                        case 5:
-                            if (j == 0) {
-                                printf("You're in the first floor now. There's no previous floor!\n");
-                                j-=1; //After this block, i increases to 1 thus skipping inputs for the 0th (1st) floor. To get the user back there, i is decreased by 1 beforehand.
-                            } else {
-                                j-=2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
-                                printf("Now you're back to floor - %d\n", j+1);
-                                continue;
-                            }
-                            break;
-                        default:
-                            break;
-                    }
-                } else {
-                    printf("Invalid input. Enter again: ");
                     scanf("%d", &floorChoice);
-                }     
+
+                    double sizeOfFlat;
+
+                    if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
+                        switch (floorChoice) {
+                            case 1:
+                                printf("Enter size of the flat: ");
+                                scanf("%lf", &sizeOfFlat);
+
+                                //Filter for negative inputs
+                                while (1) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                        if (sizeOfFlat < 0) {
+                                            printf("Flat size can't be negative! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        } else {
+                                            printf("\nToo big! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                building.ap.floors[i].individualSizes[j] = sizeOfFlat;
+                                building.ap.floors[i].types[j] = -100; //-100 for flat type
+
+                                break;
+                            case 2:
+                                printf("Enter size of the store: ");
+                                scanf("%lf", &sizeOfFlat);
+
+                                while (1) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                        if (sizeOfFlat < 0) {
+                                            printf("Store size can't be negative! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        } else {
+                                            printf("\nToo big! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                building.ap.floors[i].individualSizes[j] = sizeOfFlat;
+                                building.ap.floors[i].types[j] = -200; 
+
+                                break;
+                            case 3:
+                                printf("Enter size of the office: ");
+                                scanf("%lf", &sizeOfFlat);
+
+                                while (1) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                        if (sizeOfFlat < 0) {
+                                            printf("Office size can't be negative! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        } else {
+                                            printf("\nToo big! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                building.ap.floors[i].individualSizes[j] = sizeOfFlat;
+                                building.ap.floors[i].types[j] = -300; 
+
+                                break;
+                            case 4:
+                                printf("Enter size of the parking: ");
+                                scanf("%lf", &sizeOfFlat);
+
+                                while (1) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                        if (sizeOfFlat < 0) {
+                                            printf("Parking size can't be negative! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        } else {
+                                            printf("\nToo big! Enter again: ");
+                                            scanf("%lf", &sizeOfFlat);
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+
+                                building.ap.floors[i].individualSizes[j] = sizeOfFlat;
+                                building.ap.floors[i].types[j] = -400;
+                                building.ap.floors->floorSize = currentFloorSizeChecker(building.ap.floors->individualSizes, items); //Store the floor size. It can be smaller than actual space size. Because the user can leave some floor space empty. 
+
+                                break;
+                            case 5:
+                                if (j == 0) {
+                                    printf("You're in the first floor now. There's no previous floor!\n");
+                                    j-=1; //After this block, i increases to 1 thus skipping inputs for the 0th (1st) floor. To get the user back there, i is decreased by 1 beforehand.
+                                } else {
+                                    j-=2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
+                                    printf("Now you're back to floor - %d\n", j+1);
+                                    continue;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        floorExit = 1;
+                    } else {
+                        printf("Invalid input. Enter again: ");
+                        scanf("%d", &floorChoice);
+                    }
+                }
             }
         }
     }
@@ -466,7 +471,37 @@ void getInfo(struct Space hS[], int * lastBlankPos) {
 }
 
 void search(char string[], struct Space hS[], int * lastBlankPos) {
+    printf("\nWhat do you want search by?\n");
+    printf("[1] Name\n");
+    printf("[2] Address\n");
 
+    int searchChoice;
+    scanf("%d", &searchChoice);
+
+    if (searchChoice == 1 || searchChoice == 2) {
+        switch (searchChoice) {
+            case 1:
+                for (int i = 0; i <= (*lastBlankPos); i++) {
+                    if (hS[i].identifier == 1) {
+                        
+                    } else if (hS[i].identifier == 2) {
+
+                    } else if (hS[i].identifier == 3) {
+
+                    } else if (hS[i].identifier == 4) {
+
+                    }
+                }
+
+                break;
+            case 2:
+                break;
+            default:
+                break;
+        }
+    } else {
+        printf("Invalid choice. Enter agaain");
+    }
 }
 
 double currentFloorSizeChecker(double arr[], int limit) {
@@ -502,4 +537,3 @@ void stringInputter(char destination[]) {
         }
     }
 }
-
