@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "structDef.h"
 #include "funcPrototypes.h"
 
@@ -9,15 +10,12 @@
 //Floors is an array of floor structs containing info about each floor
 
 
-
-
-
 int main () {
     printf("\t\tWelcome to your Housing Society\n");
     for (int i = 0; i < 70; i++) {
         printf("=");
     }
-    printf("Enter a name for your Housing Society (At most 100 characters): ");
+    printf("\nEnter a name for your Housing Society (At most 100 characters): ");
 
     char name[100]; //Name of the housing society. At most 100 
 
@@ -124,7 +122,6 @@ int main () {
         return 0;
 }
 
-
 //Function Definitions:
 int addApart(struct Space hS[], int * lastBlankPos) {
     //Required info: identifier, name, address, floor number
@@ -182,7 +179,7 @@ int addApart(struct Space hS[], int * lastBlankPos) {
 
         scanf("%d", &floorChoice);
 
-        while (exit = 0) {
+        while (exit == 0) {
             if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5 || floorChoice == 6) {
                 switch (floorChoice) {
                     case 1:
