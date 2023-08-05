@@ -299,6 +299,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
 
                             building.ap.floors[i].individualSizes[j] = sizeOfFlat;
                             building.ap.floors[i].types[j] = -400;
+                            building.ap.floors->floorSize = currentFloorSizeChecker(building.ap.floors->individualSizes, items); //Store the floor size. It can be smaller than actual space size. Because the user can leave some floor space empty. 
 
                             break;
                         case 5:
@@ -408,7 +409,52 @@ void addPark(struct Space hS[], int * lastBlankPos) {
 }
 
 void addHospital(struct Space hS[], int * lastBlankPos) {
+hS[(*lastBlankPos)].identifier = 2;
+    printf("\nEnter a name for your hospital (At most 100 characters): \n");
 
+    stringInputter(building.hs.name);
+
+    printf("\nEnter the address of your hospital (At most 200 characters): \n");
+
+    stringInputter(building.hs.address);
+
+    
+    printf("\nEnter the size of your hospital in sq. ft.: ");
+
+    double sz;
+
+    scanf("%lf", &sz);
+
+    while (1) {
+        if (sz <= 0) {
+        //Size can't be zero or less
+            printf("\nInvalid size. Enter again: ");
+            scanf("%lf", &sz);
+        } else {
+            hS[(*lastBlankPos)].size = sz;
+            break;
+        }
+    }
+
+    printf("\nEnter number of floors (At most 6): ");
+
+    int f;
+
+    scanf("%d", &f);
+
+    while (1) {
+        if (f <= 10 && f > 0) {
+        //At least one floor and not more than 10
+            building.hs.numberOfFloors = f;
+            break;
+        } else {
+            printf("\nInvalid number. Enter again: ");
+            scanf("%d", &f);
+        }
+    }
+
+    printf("Successfully added a hospital.\n");
+    (*lastBlankPos) += 1;
 }
 
 void listItems(struct Space hS[], int * lastBlankPos) {
@@ -456,3 +502,4 @@ void stringInputter(char destination[]) {
         }
     }
 }
+
