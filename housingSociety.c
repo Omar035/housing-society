@@ -9,7 +9,6 @@
 //Each instance of apartment or others are a struct with floors and other info
 //Floors is an array of floor structs containing info about each floor
 
-
 int main () {
     printf("\t\tWelcome to your Housing Society\n");
     for (int i = 0; i < 70; i++) {
@@ -19,7 +18,7 @@ int main () {
 
     char name[100]; //Name of the housing society. At most 100 
 
-    fgets(name, sizeof(name), stdin); 
+    stringInputter(name); //Custom string inputting function to prevent uncertain behaviours of the program
 
     printf("\nName successfully saved!\n");
 
@@ -62,10 +61,7 @@ int main () {
                                         memset(hS[(lastBlankPos)].bd.ap.floors->individualSizes, 0, sizeof(hS[(lastBlankPos)].bd.ap.floors->individualSizes));
                                         memset(hS[(lastBlankPos)].bd.ap.floors->types, -1, sizeof(hS[(lastBlankPos)].bd.ap.floors->types));
                                         
-                                        //addApart() will return 1 if everything goes on flow. That is the user properly inputs all floors and floor info correctly and completely.
-                                        if (addApart) {
-
-                                        } //More else if blocks and else block to come
+                                        addApart(hS, &lastBlankPos);
                                         break;
                                     case 2:
                                         hS[(lastBlankPos)].bd.sc.numberOfFloors = 0;
@@ -127,14 +123,19 @@ int main () {
 }
 
 //Function Definitions:
-int addApart(struct Space hS[], int * lastBlankPos) {
+void addApart(struct Space hS[], int * lastBlankPos) {
     //Required info: identifier, name, address, size, number of floors
     hS[(*lastBlankPos)].identifier = 1;
-    printf("Enter a name for your apartment (At most 100 characters): \n");
-    fgets(hS[(*lastBlankPos)].bd.ap.name, sizeof(hS[(*lastBlankPos)].bd.ap.name), stdin);
-    printf("Enter the address of your apartment (At most 200 characters): \n");
-    fgets(hS[(*lastBlankPos)].bd.ap.address, sizeof(hS[(*lastBlankPos)].bd.ap.address), stdin);
-    printf("Enter the size of your apartment in sq. ft.: ");
+    printf("\nEnter a name for your apartment (At most 100 characters): \n");
+
+    stringInputter(hS[(*lastBlankPos)].bd.ap.name);
+
+    printf("\nEnter the address of your apartment (At most 200 characters): \n");
+
+    stringInputter(hS[(*lastBlankPos)].bd.ap.address);
+
+    
+    printf("\nEnter the size of your apartment in sq. ft.: ");
 
     double sz;
 
@@ -143,7 +144,7 @@ int addApart(struct Space hS[], int * lastBlankPos) {
     while (1) {
         if (sz <= 0) {
         //Size can't be zero or less
-            printf("Invalid size. Enter again: ");
+            printf("\nInvalid size. Enter again: ");
             scanf("%lf", &sz);
         } else {
             hS[(*lastBlankPos)].size = sz;
@@ -151,7 +152,7 @@ int addApart(struct Space hS[], int * lastBlankPos) {
         }
     }
 
-    printf("Enter number of floors (At most 20): ");
+    printf("\nEnter number of floors (At most 20): ");
 
     int f;
 
@@ -163,7 +164,7 @@ int addApart(struct Space hS[], int * lastBlankPos) {
             hS[(*lastBlankPos)].bd.ap.numberOfFloors = f;
             break;
         } else {
-            printf("Invalid number. Enter again: ");
+            printf("\nInvalid number. Enter again: ");
             scanf("%d", &f);
         }
     }
@@ -173,11 +174,11 @@ int addApart(struct Space hS[], int * lastBlankPos) {
     //i is the floor iterator
     //j is types and individualSizes iterator
     for (int i = 0; i < f; i++) {
-        printf("\nEnter floor-%d info: \n", i+1);
+        printf("\nEnter floor - %d info: \n", i+1);
 
         int floorChoice, floorExiter = 0;
 
-        printf("How many items do you want to have in this floor? [Max: 4]\n");
+        printf("\nHow many items do you want to have in this floor? [Max: 4]\n");
         printf("Enter: ");
         int items;
         scanf("%d", &items);
@@ -299,13 +300,12 @@ int addApart(struct Space hS[], int * lastBlankPos) {
         
 
     previousFloor:
-        i -= 2;
+        i -= 2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
         continue;
         
     }
 
-    (*lastBlankPos) += 1;
-    
+    (*lastBlankPos) += 1; //Set the new blank position in the housing society array to next position
 }
 
 void addSchool(struct Space hS[], int * lastBlankPos) {
@@ -345,5 +345,26 @@ double currentFloorSizeChecker(double arr[], int limit) {
 double sizeLeft(double originalFloorSize, double currentFloorSize) {
     return originalFloorSize - currentFloorSize;
 }
+
+void stringInputter(char destination[]) {
+    char ch;
+    int it;
+
+    for (it = 0; it < 99; it++) {
+        ch = getchar();
+        if (ch == '\n' && it == 0) {
+            while (ch == '\n') {
+                printf("This field cannot be blank! Enter again: ");
+                ch = getchar();
+            }
+        } else if (ch == '\n') {
+            break;
+        } else {
+            destination[it] = ch;
+            destination[it+1] = '\0';
+        }
+    }
+}
+
 
 
