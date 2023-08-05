@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "structdef.h"
+#include "structDef.h"
 #include "funcPrototypes.h"
 
 //Housing Society is an array of spaces
