@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "structDef.h"
 #include "funcPrototypes.h"
 #include <string.h>
 #define building hS[(*lastBlankPos)].bd
@@ -9,6 +8,58 @@
 //Each type of building has its own struct of necessary info together
 //Each instance of apartment or others are a struct with floors and other info
 //Floors is an array of floor structs containing info about each floor
+
+struct Space {
+    //Apartment = 1, School = 2, Park = 3, Hospital = 4
+    int identifier; 
+    double size;
+
+    struct Floor {
+            int items; //How many types in a particular floor; At most 4 [Store, Parking, Flat, Office]
+            //-100 for Flat, -200 for Store, -300 for Office, -400 for Parking
+            double floorSize;
+            int types[4];
+            double individualSizes[4]; //Size of individual type
+        };
+
+    union Building {
+        //Internal structures' definitions of the housing society:
+        struct Apartment {
+            char name[100]; //Prompt and prevent user from inputting more than 100 characters
+            char address[200]; //Prompt and prevent user from inputting more than 200 chars
+            int numberOfFloors;
+            struct Floor floors[20];
+        } ap;
+
+        struct School {
+            char name[100];
+            char address[200];
+            int numberOfFloors;
+            struct Floor floors[6]; //At most 6 floors 
+        } sc;
+
+        struct Park {
+            char name[100];
+            char address[200];
+            int hasKidsPlayground; //1 if yes, 0 if no
+            //No floors input for a park
+        } pk;
+
+        struct Hospital {
+            char name[100];
+            char address[200];
+            char type[50]; //Cardiac, Orthopedic, General, Diagnostic etc.
+            int numberOfFloors;
+            struct Floor floors[10]; //At most 10 floors
+        } hs;
+    } bd;
+};
+
+//Function prototypes:
+void addApart(struct Space hS[], int * lastBlankPos), addSchool(struct Space hS[], int * lastBlankPos), addPark(struct Space hS[], int * lastBlankPos), addHospital(struct Space hS[], int * lastBlankPos), listItems(struct Space hS[], int * lastBlankPos), getInfo(struct Space hS[], int * lastBlankPos), search(char string[], struct Space hS[], int * lastBlankPos), stringInputter(char destination[]);
+
+double currentFloorSizeChecker(double arr[], int limit), sizeLeft(double originalFloorSize, double currentFloorSize);
+
 
 int main () {
     printf("\t\tWelcome to your Housing Society\n");
@@ -483,6 +534,7 @@ void search(char string[], struct Space hS[], int * lastBlankPos) {
 
         if (searchChoice == 1 || searchChoice == 2) {
             for (int i = 0; i <= (*lastBlankPos); i++) {
+                //If ientifier matches to certain value search accordingly in the union members. For identifier-1, apartment struct of the building union is active, if identifier is 2, then school struct is active and so on. Thus check for matches in respective name or address fields.
                 if (hS[i].identifier == 1 && (hS[i].bd.ap.name == string || hS[i].bd.ap.address)) {
                     printf("\nAn apartment named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.ap.name, hS[i].bd.ap.address, i+1);
                     atLeastOneMatchFound = 1;
@@ -544,4 +596,3 @@ void stringInputter(char destination[]) {
         }
     }
 }
-
