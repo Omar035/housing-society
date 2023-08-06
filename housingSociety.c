@@ -471,36 +471,43 @@ void getInfo(struct Space hS[], int * lastBlankPos) {
 }
 
 void search(char string[], struct Space hS[], int * lastBlankPos) {
-    printf("\nWhat do you want search by?\n");
-    printf("[1] Name\n");
-    printf("[2] Address\n");
+    int searchExiter = 0, atLeastOneMatchFound = 0;
 
-    int searchChoice;
-    scanf("%d", &searchChoice);
+    while (searchExiter == 0) {
+        printf("\nWhat do you want search by?\n");
+        printf("[1] Name\n");
+        printf("[2] Address\n");
 
-    if (searchChoice == 1 || searchChoice == 2) {
-        switch (searchChoice) {
-            case 1:
-                for (int i = 0; i <= (*lastBlankPos); i++) {
-                    if (hS[i].identifier == 1) {
-                        
-                    } else if (hS[i].identifier == 2) {
+        int searchChoice;
+        scanf("%d", &searchChoice);
 
-                    } else if (hS[i].identifier == 3) {
-
-                    } else if (hS[i].identifier == 4) {
-
-                    }
+        if (searchChoice == 1 || searchChoice == 2) {
+            for (int i = 0; i <= (*lastBlankPos); i++) {
+                if (hS[i].identifier == 1 && (hS[i].bd.ap.name == string || hS[i].bd.ap.address)) {
+                    printf("\nAn apartment named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.ap.name, hS[i].bd.ap.address, i+1);
+                    atLeastOneMatchFound = 1;
+                } else if (hS[i].identifier == 2 && (hS[i].bd.sc.name == string || hS[i].bd.sc.address)) {
+                    printf("\nA school named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.sc.name, hS[i].bd.sc.address, i+1);
+                    atLeastOneMatchFound = 1;
+                } else if (hS[i].identifier == 3 && (hS[i].bd.pk.name == string || hS[i].bd.pk.address)) {
+                    printf("\nA park named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.pk.name, hS[i].bd.pk.address, i+1);
+                    atLeastOneMatchFound = 1;
+                } else if (hS[i].identifier == 4 && (hS[i].bd.hs.name == string || hS[i].bd.hs.address)) {
+                    printf("\nA hospital named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.hs.name, hS[i].bd.hs.address, i+1);
+                    atLeastOneMatchFound = 1;
                 }
+            }
 
-                break;
-            case 2:
-                break;
-            default:
-                break;
+            //If the program finishes the for loop with atLeastOneMatchFound = 0, that means no results were found.
+            if (atLeastOneMatchFound == 0) {
+                printf("\nNo results found!\n");
+            } 
+
+            searchExiter = 1; //Done with searching. Break the while loop and exit this function.
+        } else {
+            printf("Invalid choice. Enter agaain: ");
+            scanf("%d", &searchChoice);
         }
-    } else {
-        printf("Invalid choice. Enter agaain");
     }
 }
 
@@ -537,3 +544,4 @@ void stringInputter(char destination[]) {
         }
     }
 }
+
