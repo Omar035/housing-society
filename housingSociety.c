@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "funcPrototypes.h"
 #include <string.h>
 #define building hS[(*lastBlankPos)].bd
 
