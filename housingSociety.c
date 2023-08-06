@@ -55,7 +55,7 @@ struct Space {
 };
 
 //Function prototypes:
-void addApart(struct Space hS[], int * lastBlankPos), addSchool(struct Space hS[], int * lastBlankPos), addPark(struct Space hS[], int * lastBlankPos), addHospital(struct Space hS[], int * lastBlankPos), listItems(struct Space hS[], int * lastBlankPos), getInfo(struct Space hS[], int * lastBlankPos), search(char string[], struct Space hS[], int * lastBlankPos), stringInputter(char destination[]);
+void addApart(struct Space hS[], int * lastBlankPos), addSchool(struct Space hS[], int * lastBlankPos), addPark(struct Space hS[], int * lastBlankPos), addHospital(struct Space hS[], int * lastBlankPos), listItems(char*name, struct Space hS[], int * lastBlankPos), getInfo(char * name, struct Space hS[], int * lastBlankPos), search(char string[], struct Space hS[], int * lastBlankPos), stringInputter(char destination[]);
 
 double currentFloorSizeChecker(double arr[], int limit), sizeLeft(double originalFloorSize, double currentFloorSize);
 
@@ -143,10 +143,10 @@ int main () {
                     }
                     break;
                 case 2:
-                    listItems(hS, &lastBlankPos);
+                    listItems(name, hS, &lastBlankPos);
                     break;
                 case 3:
-                    getInfo(hS, &lastBlankPos);
+                    getInfo(name, hS, &lastBlankPos);
                     break;
                 case 4:
                     printf("Enter a name or address of a building to search for it: ");
@@ -195,7 +195,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
     while (1) {
         if (sz <= 0) {
         //Size can't be zero or less
-            printf("\nInvalid size. Enter again: ");
+            printf("\nSize cannot be negative! Please enter again: ");
             scanf("%lf", &sz);
         } else {
             hS[(*lastBlankPos)].size = sz;
@@ -215,7 +215,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
             building.ap.numberOfFloors = f;
             break;
         } else {
-            printf("\nInvalid number. Enter again: ");
+            printf("\nUnexpected input! Please enter again: ");
             scanf("%d", &f);
         }
     }
@@ -229,7 +229,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
         int floorChoice;
 
         printf("\nHow many items do you want to have in this floor? Items include flats, stores, offices and parkings. [Max: 4]\n");
-        printf("Enter: ");
+        printf("Enter the number of items: ");
         int items;
         scanf("%d", &items);
 
@@ -237,13 +237,12 @@ void addApart(struct Space hS[], int * lastBlankPos) {
             if (items > 0 && items <= 4) {
                 break;
             } else {
-                printf("Invalid input. Enter again: ");
+                printf("Unexpected input. Please enter again: ");
                 scanf("%d", &items);
             }
         }
 
         for (int j = 0; j < items; j++) {
-            
             if (currentFloorSizeChecker(building.ap.floors[i].individualSizes, items) >= sz) {
                 //If sum of the sizes of items already exceeds the original apartment size
                 break;
@@ -255,14 +254,13 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                     printf("[2] Add a Store\n");
                     printf("[3] Add an Office\n");
                     printf("[4] Add a parking\n");
-                    printf("[5] Go to previous floor\n");
                     printf("Enter your choice: ");
 
                     scanf("%d", &floorChoice);
 
                     double sizeOfFlat;
 
-                    if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4 || floorChoice == 5) {
+                    if (floorChoice == 1 || floorChoice == 2 || floorChoice == 3 || floorChoice == 4) {
                         switch (floorChoice) {
                             case 1:
                                 printf("Enter size of the flat: ");
@@ -354,23 +352,13 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                                 building.ap.floors->floorSize = currentFloorSizeChecker(building.ap.floors->individualSizes, items); //Store the floor size. It can be smaller than actual space size. Because the user can leave some floor space empty. 
 
                                 break;
-                            case 5:
-                                if (j == 0) {
-                                    printf("You're in the first floor now. There's no previous floor!\n");
-                                    j-=1; //After this block, i increases to 1 thus skipping inputs for the 0th (1st) floor. To get the user back there, i is decreased by 1 beforehand.
-                                } else {
-                                    j-=2; //Go back 2 floors so that when the increment occurs after the continue statement, it takes you to the previous floor
-                                    printf("Now you're back to floor - %d\n", j+1);
-                                    continue;
-                                }
-                                break;
                             default:
                                 break;
                         }
 
                         floorExit = 1;
                     } else {
-                        printf("Invalid input. Enter again: ");
+                        printf("Unexpected input. Please enter again: ");
                         scanf("%d", &floorChoice);
                     }
                 }
@@ -378,8 +366,8 @@ void addApart(struct Space hS[], int * lastBlankPos) {
         }
     }
 
-    printf("\nSuccessfully added the apartment: %s\n", building.ap.name);
-    (*lastBlankPos) += 1; //Set the new blank position in the housing society array to next position
+    printf("\nSuccessfully added the apartment: \"%s\"\n", building.ap.name);
+    (*lastBlankPos) += 1; //Set the new blank position in the housing society array to be the next position
 }
 
 void addSchool(struct Space hS[], int * lastBlankPos) {
@@ -512,11 +500,11 @@ hS[(*lastBlankPos)].identifier = 2;
     (*lastBlankPos) += 1;
 }
 
-void listItems(struct Space hS[], int * lastBlankPos) {
-    
+void listItems(char * name, struct Space hS[], int * lastBlankPos) {
+    printf("Name: \t\t%s", name);
 }
 
-void getInfo(struct Space hS[], int * lastBlankPos) {
+void getInfo(char * name, struct Space hS[], int * lastBlankPos) {
 
 }
 
@@ -582,3 +570,4 @@ void stringInputter(char destination[]) {
         }
     }
 }
+
