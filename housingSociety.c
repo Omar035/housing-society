@@ -513,7 +513,7 @@ hS[(*lastBlankPos)].identifier = 2;
 }
 
 void listItems(struct Space hS[], int * lastBlankPos) {
-
+    
 }
 
 void getInfo(struct Space hS[], int * lastBlankPos) {
@@ -521,44 +521,31 @@ void getInfo(struct Space hS[], int * lastBlankPos) {
 }
 
 void search(char string[], struct Space hS[], int * lastBlankPos) {
-    int searchExiter = 0, atLeastOneMatchFound = 0;
+    int atLeastOneMatchFound = 0;
 
-    while (searchExiter == 0) {
-        printf("\nWhat do you want search by?\n");
-        printf("[1] Name\n");
-        printf("[2] Address\n");
+    for (int i = 0; i <= (*lastBlankPos); i++) {
 
-        int searchChoice;
-        scanf("%d", &searchChoice);
-
-        if (searchChoice == 1 || searchChoice == 2) {
-            for (int i = 0; i <= (*lastBlankPos); i++) {
-                //If ientifier matches to certain value search accordingly in the union members. For identifier-1, apartment struct of the building union is active, if identifier is 2, then school struct is active and so on. Thus check for matches in respective name or address fields.
-                if (hS[i].identifier == 1 && (hS[i].bd.ap.name == string || hS[i].bd.ap.address)) {
-                    printf("\nAn apartment named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.ap.name, hS[i].bd.ap.address, i+1);
-                    atLeastOneMatchFound = 1;
-                } else if (hS[i].identifier == 2 && (hS[i].bd.sc.name == string || hS[i].bd.sc.address)) {
-                    printf("\nA school named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.sc.name, hS[i].bd.sc.address, i+1);
-                    atLeastOneMatchFound = 1;
-                } else if (hS[i].identifier == 3 && (hS[i].bd.pk.name == string || hS[i].bd.pk.address)) {
-                    printf("\nA park named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.pk.name, hS[i].bd.pk.address, i+1);
-                    atLeastOneMatchFound = 1;
-                } else if (hS[i].identifier == 4 && (hS[i].bd.hs.name == string || hS[i].bd.hs.address)) {
-                    printf("\nA hospital named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.hs.name, hS[i].bd.hs.address, i+1);
-                    atLeastOneMatchFound = 1;
-                }
-            }
-
-            //If the program finishes the for loop with atLeastOneMatchFound = 0, that means no results were found.
-            if (atLeastOneMatchFound == 0) {
-                printf("\nNo results found!\n");
-            } 
-
-            searchExiter = 1; //Done with searching. Break the while loop and exit this function.
-        } else {
-            printf("Invalid choice. Enter agaain: ");
-            scanf("%d", &searchChoice);
+    //If ientifier matches to certain value search accordingly in the union members. For identifier-1, apartment struct of the building union is active, if identifier is 2, then school struct is active and so on. Thus check for matches in respective name or address fields.
+    
+        if (hS[i].identifier == 1 && (hS[i].bd.ap.name == string || hS[i].bd.ap.address)) {
+            printf("\nAn apartment named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.ap.name, hS[i].bd.ap.address, i+1);
+            atLeastOneMatchFound = 1;
+        } else if (hS[i].identifier == 2 && (hS[i].bd.sc.name == string || hS[i].bd.sc.address)) {
+            printf("\nA school named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.sc.name, hS[i].bd.sc.address, i+1);
+            atLeastOneMatchFound = 1;
+        } else if (hS[i].identifier == 3 && (hS[i].bd.pk.name == string || hS[i].bd.pk.address)) {
+            printf("\nA park named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.pk.name, hS[i].bd.pk.address, i+1);
+            atLeastOneMatchFound = 1;
+        } else if (hS[i].identifier == 4 && (hS[i].bd.hs.name == string || hS[i].bd.hs.address)) {
+            printf("\nA hospital named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.hs.name, hS[i].bd.hs.address, i+1);
+            atLeastOneMatchFound = 1;
         }
+    }
+
+    //If the program finishes the for loop with atLeastOneMatchFound = 0, that means no results were found.
+    if (atLeastOneMatchFound == 0) {
+        printf("\nNo results found!\n");
+
     }
 }
 
