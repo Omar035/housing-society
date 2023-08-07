@@ -55,7 +55,7 @@ struct Space {
 };
 
 //Function prototypes:
-void addApart(struct Space hS[], int * lastBlankPos), addSchool(struct Space hS[], int * lastBlankPos), addPark(struct Space hS[], int * lastBlankPos), addHospital(struct Space hS[], int * lastBlankPos), listItems(char*name, struct Space hS[], int * lastBlankPos), getInfo(char * name, struct Space hS[], int * lastBlankPos), search(char string[], struct Space hS[], int * lastBlankPos), stringInputter(char destination[]);
+void addApart(struct Space hS[], int * lastBlankPos), addSchool(struct Space hS[], int * lastBlankPos), addPark(struct Space hS[], int * lastBlankPos), addHospital(struct Space hS[], int * lastBlankPos), listItems(char*name, struct Space hS[], int * lastBlankPos), getInfo(char * name, struct Space hS[], int * lastBlankPos), search(char string[], struct Space hS[], int * lastBlankPos), stringInputter(char destination[]), stringInputterBufferClearerVersion(char destination[]);
 
 double currentFloorSizeChecker(double arr[], int limit), sizeLeft(double originalFloorSize, double currentFloorSize);
 
@@ -179,7 +179,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
     hS[(*lastBlankPos)].identifier = 1;
     printf("\nEnter a name for your apartment (At most 100 characters): \n");
 
-    stringInputter(building.ap.name);
+    stringInputterBufferClearerVersion(building.ap.name);
 
     printf("\nEnter the address of your apartment (At most 200 characters): \n");
 
@@ -374,7 +374,7 @@ void addSchool(struct Space hS[], int * lastBlankPos) {
     hS[(*lastBlankPos)].identifier = 2;
     printf("\nEnter a name for your school (At most 100 characters): \n");
 
-    stringInputter(building.sc.name);
+    stringInputterBufferClearerVersion(building.sc.name);
 
     printf("\nEnter the address of your school (At most 200 characters): \n");
 
@@ -423,7 +423,7 @@ void addPark(struct Space hS[], int * lastBlankPos) {
     hS[(*lastBlankPos)].identifier = 3;
     printf("\nEnter a name for your park (At most 100 characters): \n");
 
-    stringInputter(building.pk.name);
+    stringInputterBufferClearerVersion(building.pk.name);
 
     printf("\nEnter the address of your park (At most 200 characters): \n");
 
@@ -472,7 +472,7 @@ void addHospital(struct Space hS[], int * lastBlankPos) {
 hS[(*lastBlankPos)].identifier = 4;
     printf("\nEnter a name for your hospital (At most 100 characters): \n");
 
-    stringInputter(building.hs.name);
+    stringInputterBufferClearerVersion(building.hs.name);
 
     printf("\nEnter the address of your hospital (At most 200 characters): \n");
 
@@ -622,5 +622,30 @@ void stringInputter(char destination[]) {
 
     destination[it] = '\0';
 }
+
+void stringInputterBufferClearerVersion(char destination[]) {
+    char ch;
+    int it;
+
+    // Clear the input buffer, including the newline character
+    while ((ch = getchar()) != '\n' && ch != EOF);
+
+    for (it = 0; it < 99; it++) {
+        ch = getchar();
+        if (ch == '\n' && it == 0) {
+            while (ch == '\n') {
+                printf("This field cannot be blank! Enter again: ");
+                ch = getchar();
+            }
+        } else if (ch == '\n') {
+            break;
+        } else {
+            destination[it] = ch;
+        }
+    }
+
+    destination[it] = '\0';
+}
+
 
 
