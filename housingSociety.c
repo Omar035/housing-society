@@ -63,7 +63,7 @@ double currentFloorSizeChecker(double arr[], int limit), sizeLeft(double origina
 int main () {
     printf("\t\tWelcome to your Housing Society\n");
     for (int i = 0; i < 70; i++) {
-        printf("=");
+        printf("-");
     }
     printf("\nEnter a name for your Housing Society (At most 100 characters): ");
 
@@ -455,7 +455,7 @@ void addPark(struct Space hS[], int * lastBlankPos) {
     while (1) {
         if (kidsPlayGround == 1 || kidsPlayGround == 2) {
             hS[(*lastBlankPos)].bd.pk.hasKidsPlayground = kidsPlayGround;
-            printf("Saved the information.\n");
+            printf("\nSaved the information.\n");
             break;
         } else {
             printf("Unexpected input!\nDoes the park have Kids' Playground?\n");
@@ -469,7 +469,7 @@ void addPark(struct Space hS[], int * lastBlankPos) {
 }
 
 void addHospital(struct Space hS[], int * lastBlankPos) {
-hS[(*lastBlankPos)].identifier = 2;
+hS[(*lastBlankPos)].identifier = 4;
     printf("\nEnter a name for your hospital (At most 100 characters): \n");
 
     stringInputter(building.hs.name);
@@ -496,7 +496,11 @@ hS[(*lastBlankPos)].identifier = 2;
         }
     }
 
-    printf("\nEnter number of floors (At most 6): ");
+    printf("\nWhat does the hospital specializes in? (i.e. General, Cardiac, Orthopedic etc.)\n");
+    printf("Enter: ");
+    scanf("%s", &hS[(*lastBlankPos)].bd.hs.type);
+
+    printf("\nEnter number of floors (At most 10): ");
 
     int f;
 
@@ -528,24 +532,24 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
         printf("\tSerial\t\tType\t\t\tName\t\tSize\t\t\tFeatures\n");
 
         for (int i = 0; i < 100; i++) {
-            printf("=");
+            printf("-");
         }
 
         printf("\n");
 
         for (int i = 0; i < (*lastBlankPos); i++) {
             if (hS[i].identifier == 1) {
-                printf("\t%d\t\tApartment\t\t%s\t\t%.2lf\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
+                printf("\t%d\t\tApartment\t\t%s\t\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
             } else if (hS[i].identifier == 2) {
-                printf("\t%d\t\tSchool\t\t%s\t\t%.2lf\t\tFloor(s): %d\n", i+1, hS[i].bd.sc.name, hS[i].size, hS[i].bd.sc.numberOfFloors);
+                printf("\t%d\t\tSchool\t\t%s\t\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.sc.name, hS[i].size, hS[i].bd.sc.numberOfFloors);
             } else if (hS[i].identifier == 3) {
                 if (hS[i].bd.pk.hasKidsPlayground == 0) {
-                    printf("\t%d\t\tPark\t\t%s\t\t%.2lf\tIncludes Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
+                    printf("\t%d\t\tPark\t\t\t%s\t\t%.2lf\t\t\tIncludes Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
                 } else if (hS[i].bd.pk.hasKidsPlayground == 1) {
-                    printf("\t%d\t\tPark\t\t%s\t\t%.2lf\tNo Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
+                    printf("\t%d\t\tPark\t\t%s\t\t%.2lf\t\t\tNo Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
                 }
             } else if (hS[i].identifier == 4) {
-                printf("\t%d\t\tHospital\t\t\t%s\t\t%lf\t\tSpecializes in: %s\n", i+1, hS[i].bd.hs.name, hS[i].size, hS[i].bd.hs.type);
+                printf("\t%d\t\tHospital\t\t\t%s\t\t%lf\t\t%s\n", i+1, hS[i].bd.hs.name, hS[i].size, hS[i].bd.hs.type);
             }
         }
     }
@@ -562,16 +566,16 @@ void search(char string[], struct Space hS[], int * lastBlankPos) {
 
     //If ientifier matches to certain value search accordingly in the union members. For identifier-1, apartment struct of the building union is active, if identifier is 2, then school struct is active and so on. Thus check for matches in respective name or address fields.
     
-        if (hS[i].identifier == 1 && (hS[i].bd.ap.name == string || hS[i].bd.ap.address)) {
+        if (hS[i].identifier == 1 && (strcmp(hS[i].bd.ap.name, string) == 0 || strcmp(hS[i].bd.ap.address, string) == 0)) {
             printf("\nAn apartment named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.ap.name, hS[i].bd.ap.address, i+1);
             atLeastOneMatchFound = 1;
-        } else if (hS[i].identifier == 2 && (hS[i].bd.sc.name == string || hS[i].bd.sc.address)) {
+        } else if (hS[i].identifier == 2 && (strcmp(hS[i].bd.sc.name, string) == 0 || strcmp(hS[i].bd.sc.address, string) == 0)) {
             printf("\nA school named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.sc.name, hS[i].bd.sc.address, i+1);
             atLeastOneMatchFound = 1;
-        } else if (hS[i].identifier == 3 && (hS[i].bd.pk.name == string || hS[i].bd.pk.address)) {
+        } else if (hS[i].identifier == 3 && (strcmp(hS[i].bd.pk.name, string) == 0 || strcmp(hS[i].bd.pk.address, string) == 0)) {
             printf("\nA park named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.pk.name, hS[i].bd.pk.address, i+1);
             atLeastOneMatchFound = 1;
-        } else if (hS[i].identifier == 4 && (hS[i].bd.hs.name == string || hS[i].bd.hs.address)) {
+        } else if (hS[i].identifier == 4 && (strcmp(hS[i].bd.hs.name, string) == 0 || strcmp(hS[i].bd.hs.address, string) == 0)) {
             printf("\nA hospital named %s was found at the address: %s\nIt is in Space - %d of the housing society\n", hS[i].bd.hs.name, hS[i].bd.hs.address, i+1);
             atLeastOneMatchFound = 1;
         }
@@ -613,7 +617,10 @@ void stringInputter(char destination[]) {
             break;
         } else {
             destination[it] = ch;
-            destination[it+1] = '\0';
         }
     }
+
+    destination[it] = '\0';
 }
+
+
