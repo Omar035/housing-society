@@ -447,6 +447,23 @@ void addPark(struct Space hS[], int * lastBlankPos) {
         }
     }
 
+    int kidsPlayGround;
+    printf("Does the park have Kids' Playground?\n");
+    printf("[1] Yes\n[2] No\nEnter your choice: ");
+    scanf("%d", &kidsPlayGround);
+
+    while (1) {
+        if (kidsPlayGround == 1 || kidsPlayGround == 2) {
+            hS[(*lastBlankPos)].bd.pk.hasKidsPlayground = kidsPlayGround;
+            printf("Saved the information.\n");
+            break;
+        } else {
+            printf("Unexpected input!\nDoes the park have Kids' Playground?\n");
+            printf("[1] Yes\n[2] No\nEnter your choice: ");
+            scanf("%d", &kidsPlayGround);
+        }
+    }
+
     printf("Successfully added a park.\n");
     (*lastBlankPos) += 1;
 }
@@ -570,4 +587,3 @@ void stringInputter(char destination[]) {
         }
     }
 }
-
