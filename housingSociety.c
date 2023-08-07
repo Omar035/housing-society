@@ -151,7 +151,7 @@ int main () {
                 case 4:
                     printf("Enter a name or address of a building to search for it: ");
                     char nameOrAddr[200];
-                    scanf("%s", &nameOrAddr);
+                    stringInputter(nameOrAddr);
                     search(nameOrAddr, hS, &lastBlankPos);
                     break;
                 case 5:
@@ -366,7 +366,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
         }
     }
 
-    printf("\nSuccessfully added the apartment: \"%s\"\n", building.ap.name);
+    printf("\nSuccessfully added the apartment: %s\n", building.ap.name);
     (*lastBlankPos) += 1; //Set the new blank position in the housing society array to be the next position
 }
 
@@ -518,7 +518,25 @@ hS[(*lastBlankPos)].identifier = 2;
 }
 
 void listItems(char * name, struct Space hS[], int * lastBlankPos) {
-    printf("Name: \t\t%s", name);
+    if ((*lastBlankPos) == 0) {
+        printf("\nTotal number of occupied spaces: %d\n", (*lastBlankPos));
+        printf("Housing Society is empty.\n");
+    } else {
+        printf("Name: %s\n", name);
+        printf("Total number of occupied spaces: %d\n", (*lastBlankPos));
+
+        printf("\tID\t\tType\t\t\tName & Address\t\t\tFeatures\n");
+
+        for (int i = 0; i < 100; i++) {
+            printf("=");
+        }
+
+        printf("\n");
+
+        
+
+
+    }
 }
 
 void getInfo(char * name, struct Space hS[], int * lastBlankPos) {
@@ -549,8 +567,8 @@ void search(char string[], struct Space hS[], int * lastBlankPos) {
 
     //If the program finishes the for loop with atLeastOneMatchFound = 0, that means no results were found.
     if (atLeastOneMatchFound == 0) {
-        printf("\nNo results found!\n");
-
+        printf("\n\nNo results found!\n");
+        return;
     }
 }
 
