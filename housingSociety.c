@@ -169,7 +169,7 @@ int main () {
     }
 
     Exit:
-        printf("Successfully exited the Housing Society\n");
+        printf("Successfully exited %s\n", name);
         return 0;
 }
 
@@ -523,7 +523,7 @@ hS[(*lastBlankPos)].identifier = 4;
 
 void listItems(char * name, struct Space hS[], int * lastBlankPos) {
     if ((*lastBlankPos) == 0) {
-        printf("Housing Society is empty.\n");
+        printf("\n%s is empty.\n", name);
     } else {
         printf("\nItems of %s\n", name);
         printf("Total number of occupied spaces: %d\n", (*lastBlankPos));
@@ -536,9 +536,9 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
 
         printf("\n");
 
-        for (int i = 0; i < (*lastBlankPos); i++) {
+        for (int i = 0; i <= (*lastBlankPos); i++) {
             if (hS[i].identifier == 1) {
-                printf("\t%d\t\tApartment\t\t%s\t\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
+                printf("\t%d\t\tApartment\t%s\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
             } else if (hS[i].identifier == 2) {
                 printf("\t%d\t\tSchool\t\t%s\t\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.sc.name, hS[i].size, hS[i].bd.sc.numberOfFloors);
             } else if (hS[i].identifier == 3) {
@@ -548,73 +548,78 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
                     printf("\t%d\t\tPark\t\t%s\t\t%.2lf\t\t\tNo Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
                 }
             } else if (hS[i].identifier == 4) {
-                printf("\t%d\t\tHospital\t\t\t%s\t\t%lf\t\t%s\n", i+1, hS[i].bd.hs.name, hS[i].size, hS[i].bd.hs.type);
+                printf("\t%d\t\tHospital\t%s\t\t%lf\t\t%s\n", i+1, hS[i].bd.hs.name, hS[i].size, hS[i].bd.hs.type);
             }
         }
     }
 }
 
 void getInfo(char * name, struct Space hS[], int * lastBlankPos) {
-    int aparts = 0, schools = 0, hospitals = 0, parks = 0;
-    double totalApSize = 0, totalScSize = 0, totalPkSize = 0, totalHsSize = 0, percent1 = 0, percent2 = 0, percent3 = 0, percent4 = 0;
-    long double totalHousingSize = 0;
-
-    for (int i = 0; i <= (*lastBlankPos); i++) {
-        if (hS[i].identifier == 1) {
-            aparts += 1;
-            totalApSize += hS[i].size;
-        } else if (hS[i].identifier == 2) {
-            schools += 1;
-            totalScSize += hS[i].size;
-        } else if (hS[i].identifier == 3) {
-            parks += 1;
-            totalPkSize += hS[i].size;
-        } else if (hS[i].identifier == 4) {
-            hospitals += 1;
-            totalHsSize += hS[i].size;
+    if ((*lastBlankPos) == 0) {
+        printf("\n%s is empty.\n", name);
+    } else {
+        int aparts = 0, schools = 0, hospitals = 0, parks = 0;
+        double totalApSize = 0, totalScSize = 0, totalPkSize = 0, totalHsSize = 0, totalHousingSize = 0;
+        float percent1 = 0, percent2 = 0, percent3 = 0, percent4 = 0;
+        
+        for (int i = 0; i <= (*lastBlankPos); i++) {
+            if (hS[i].identifier == 1) {
+                aparts += 1;
+                totalApSize += hS[i].size;
+                totalHousingSize += hS[i].size;
+            } else if (hS[i].identifier == 2) {
+                schools += 1;
+                totalScSize += hS[i].size;
+                totalHousingSize += hS[i].size;
+            } else if (hS[i].identifier == 3) {
+                parks += 1;
+                totalPkSize += hS[i].size;
+                totalHousingSize += hS[i].size;
+            } else if (hS[i].identifier == 4) {
+                hospitals += 1;
+                totalHsSize += hS[i].size;
+                totalHousingSize += hS[i].size;
+            }
         }
-    }
 
-    totalHousingSize = totalApSize + totalScSize + totalPkSize + totalHsSize;
+        if (totalApSize > 0) {
+            percent1 = (totalApSize/totalHousingSize) * 100;
+        }
 
-    if (totalApSize > 0) {
-        percent1 = (totalApSize/totalHousingSize) * 100;
-    }
+        if (totalScSize > 0) {
+            percent2 = (totalScSize/totalHousingSize) * 100;
+        }
 
-    if (totalScSize > 0) {
-        percent2 = (totalScSize/totalHousingSize) * 100;
-    }
+        if (totalPkSize > 0) {
+            percent3 = (totalPkSize/totalHousingSize) * 100;
+        }
 
-    if (totalPkSize > 0) {
-        percent3 = (totalPkSize/totalHousingSize) * 100;
-    }
+        if (totalHsSize > 0) {
+            percent4 = (totalHsSize/totalHousingSize) * 100;
+        }
 
-    if (totalHsSize > 0) {
-        percent4 = (totalHsSize/totalHousingSize) * 100;
-    }
+        printf("\nHousing Society Name: %s\n", name);
+        printf("Total size: %.2lf\n", totalHousingSize); //%lf for long double
+        printf("Occupied spaces: %d\n", (*lastBlankPos));
 
-    printf("\nHousing Society Name: %s\n", name);
-    printf("Total size: %.2Lf\n", totalHousingSize); //%Lf for long double
-    printf("Occupied spaces: %d\n", (*lastBlankPos));
+        printf("Apartments:\n");
+        printf("Total number of apartments: %d\n", aparts);
+        printf("Total size of apartments: %.2lf (%.2f percent)\n", totalApSize, percent1);
+        //More to add about individual apartments
 
-    printf("Apartments:\n");
-    printf("Total number of apartments: %d\n", aparts);
-    printf("Total size of apartments: %.2lf (%.2lf percent)\n", totalApSize, percent1);
-    //More to add about individual apartments
+        printf("Schools:\n");
+        printf("Total number of schools: %d\n", schools);
+        printf("Total size of schools: %.2lf (%.2f percent)\n", totalScSize, percent2);
 
-    printf("Schools:\n");
-    printf("Total number of schools: %d\n", schools);
-    printf("Total size of schools: %.2lf (%.2lf percent)\n", totalScSize, percent2);
+        printf("Parks:\n");
+        printf("Total number of parks: %d\n", parks);
+        printf("Total size of parks: %.2lf (%.2f percent)\n", totalPkSize, percent3);
 
-    printf("Parks:\n");
-    printf("Total number of parks: %d\n", parks);
-    printf("Total size of parks: %.2lf (%.2lf percent)\n", totalPkSize, percent3);
-
-    printf("Hospitals:\n");
-    printf("Total number of hospitals: %d\n", hospitals);
-    printf("Total size of hospitals: %.2lf (%.2lf percent)\n", totalHsSize, percent4);
+        printf("Hospitals:\n");
+        printf("Total number of hospitals: %d\n", hospitals);
+        printf("Total size of hospitals: %.2lf (%.2f percent)\n", totalHsSize, percent4);
     
- 
+    }
 }
 
 void search(char string[], struct Space hS[], int * lastBlankPos) {
@@ -703,6 +708,3 @@ void stringInputterBufferClearerVersion(char destination[]) {
 
     destination[it] = '\0';
 }
-
-
-
