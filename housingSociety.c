@@ -268,7 +268,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
 
                                 //Filter for negative inputs
                                 while (1) {
-                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors[i].individualSizes, items) + sizeOfFlat)) < 0)) {
                                         if (sizeOfFlat < 0) {
                                             printf("Flat size can't be negative! Enter again: ");
                                             scanf("%lf", &sizeOfFlat);
@@ -290,7 +290,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                                 scanf("%lf", &sizeOfFlat);
 
                                 while (1) {
-                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors[i].individualSizes, items) + sizeOfFlat)) < 0)) {
                                         if (sizeOfFlat < 0) {
                                             printf("Store size can't be negative! Enter again: ");
                                             scanf("%lf", &sizeOfFlat);
@@ -312,7 +312,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                                 scanf("%lf", &sizeOfFlat);
 
                                 while (1) {
-                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors[i].individualSizes, items) + sizeOfFlat)) < 0)) {
                                         if (sizeOfFlat < 0) {
                                             printf("Office size can't be negative! Enter again: ");
                                             scanf("%lf", &sizeOfFlat);
@@ -334,7 +334,7 @@ void addApart(struct Space hS[], int * lastBlankPos) {
                                 scanf("%lf", &sizeOfFlat);
 
                                 while (1) {
-                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors->individualSizes, items) + sizeOfFlat)) < 0)) {
+                                    if ((sizeOfFlat < 0) || (sizeLeft(sz, (currentFloorSizeChecker(building.ap.floors[i].individualSizes, items) + sizeOfFlat)) < 0)) {
                                         if (sizeOfFlat < 0) {
                                             printf("Parking size can't be negative! Enter again: ");
                                             scanf("%lf", &sizeOfFlat);
