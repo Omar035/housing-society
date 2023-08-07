@@ -151,7 +151,7 @@ int main () {
                 case 4:
                     printf("Enter a name or address of a building to search for it: ");
                     char nameOrAddr[200];
-                    stringInputter(nameOrAddr);
+                    stringInputterBufferClearerVersion(nameOrAddr);
                     search(nameOrAddr, hS, &lastBlankPos);
                     break;
                 case 5:
