@@ -522,10 +522,10 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
         printf("\nTotal number of occupied spaces: %d\n", (*lastBlankPos));
         printf("Housing Society is empty.\n");
     } else {
-        printf("Name: %s\n", name);
+        printf("\nName: %s\n", name);
         printf("Total number of occupied spaces: %d\n", (*lastBlankPos));
 
-        printf("\tID\t\tType\t\t\tName & Address\t\t\tFeatures\n");
+        printf("\tSerial\t\tType\t\t\tName\t\tSize\t\t\tFeatures\n");
 
         for (int i = 0; i < 100; i++) {
             printf("=");
@@ -533,9 +533,21 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
 
         printf("\n");
 
-        
-
-
+        for (int i = 0; i < (*lastBlankPos); i++) {
+            if (hS[i].identifier == 1) {
+                printf("\t%d\t\tApartment\t\t%s\t\t%.2lf\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
+            } else if (hS[i].identifier == 2) {
+                printf("\t%d\t\tSchool\t\t%s\t\t%.2lf\t\tFloor(s): %d\n", i+1, hS[i].bd.sc.name, hS[i].size, hS[i].bd.sc.numberOfFloors);
+            } else if (hS[i].identifier == 3) {
+                if (hS[i].bd.pk.hasKidsPlayground == 0) {
+                    printf("\t%d\t\tPark\t\t%s\t\t%.2lf\tIncludes Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
+                } else if (hS[i].bd.pk.hasKidsPlayground == 1) {
+                    printf("\t%d\t\tPark\t\t%s\t\t%.2lf\tNo Kids' Playground\n", i+1, hS[i].bd.pk.name, hS[i].size);
+                }
+            } else if (hS[i].identifier == 4) {
+                printf("\t%d\t\tHospital\t\t\t%s\t\t%lf\t\tSpecializes in: %s\n", i+1, hS[i].bd.hs.name, hS[i].size, hS[i].bd.hs.type);
+            }
+        }
     }
 }
 
