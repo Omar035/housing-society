@@ -17,4 +17,8 @@ When we populate 'Apartment' member of the 'Building' union, we save the value '
 
 Now, let's dive deeper inside the 'Apartment' struct. 
 
+The Apartment struct has an extra layer of complication inside it. It contains an array of Floor structs. Because, obviously an apartment consists of floors. The final question is why using Floor structs? 
+
+Because each floor has its own characteristics and information. Those are declared in the definition of the Floor struct. A floor can have a few items such as flats, offices, parking spaces, stores and combinations of these. The 'item' variable in the Floor struct keeps the info about how many items are present in a certain floor. 
+
 //More to write
