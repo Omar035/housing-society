@@ -19,6 +19,11 @@ Now, let's dive deeper inside the 'Apartment' struct.
 
 The Apartment struct has an extra layer of complication inside it. It contains an array of Floor structs. Because, obviously an apartment consists of floors. The final question is why using Floor structs? 
 
-Because each floor has its own characteristics and information. Those are declared in the definition of the Floor struct. A floor can have a few items such as flats, offices, parking spaces, stores and combinations of these. The 'item' variable in the Floor struct keeps the info about how many items are present in a certain floor. 
+Because each floor has its own characteristics and information. Those are declared in the definition of the Floor struct. A floor can have a few items such as flats, offices, parking spaces, stores and combinations of these. The 'item' variable in the Floor struct keeps the info about how many items are present in a certain floor. Floor struct also has two arrays named 'types' and 'individualSizes'. We have limited the size of these arrays to 4 to avoid too much complication. Thus, a floor can have a maximum of 4 items. 
+
+Then we assumed that we will store the value -100 for flat, -200 for store, -300 for office, -400 for parking in the types array and store the size of these items respectively in the individualSizes array. These info can help us in the future if we add additional functionalities in our program to retrieve individual apartment's data. 
+
+B. The Driver Function:
+
 
 //More to write
