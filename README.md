@@ -13,4 +13,8 @@ Programatically, There is a 'Building' union declared inside a 'Space' struct. A
 
 As we know about the functionality of unions, any ONE of its existing members can be occupied and accessed. Thus, to save space, we created a union named 'Building' so that it can either populate 'Apartment' or 'School' and so on. Additionally, to keep track of which of the members of our 'Building' union is being used, we added an 'identifier' variable as a member of the 'Space' struct. 
 
+When we populate 'Apartment' member of the 'Building' union, we save the value '1' inside the 'identifier'. Similarly, when we populate 'School' member of the 'Building' union, we save the value '2' inside the 'identifier'. The 'identifier' late helps us to realize whether we are accessing an apartment or a park and so on.
+
+Now, let's dive deeper inside the 'Apartment' struct. 
+
 //More to write
