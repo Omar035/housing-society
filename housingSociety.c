@@ -3,7 +3,7 @@
 #define building hS[(*lastBlankPos)].bd
 
 //Housing Society is an array of spaces
-//A space can be a type of building such such as an apartment, a school, a park or a hospital
+//A space can be a type of building such as an apartment, a school, a park or a hospital
 //Each type of building has its own struct of necessary info together
 //Each instance of apartment or others are a struct with floors and other info
 //Floors is an array of floor structs containing info about each floor
@@ -73,11 +73,10 @@ int main () {
 
     printf("\nName successfully saved!\n");
 
-    int exit = 0, beginningInput, lastBlankPos = 0, caseOneExit = 0;
+    int beginningInput, lastBlankPos = 0, caseOneFlag = 0;
     struct Space hS[100]; //At most 100 spaces in our housing society. Housing Society to be called hS in short.
 
-
-    while (exit == 0) {
+    while (1) {
         printf("\n");
         printf("[1] Add a Space\n");
         printf("[2] List Items\n");
@@ -87,85 +86,85 @@ int main () {
         printf("Enter your choice: ");
 
         scanf("%d", &beginningInput);
-        
-        if (beginningInput == 1 || beginningInput == 2 || beginningInput == 3 || beginningInput == 4 || beginningInput == 5) {
-            switch (beginningInput) {
-                case 1:
-                    if (lastBlankPos < 100) {
-                        while (caseOneExit == 0) {
-                            printf("\nWhat type of space do you want to add?\n");
-                            printf("[1] Add an Apartment Building\n"); //Max floors: 20
-                            printf("[2] Add a School\n"); //Max Floors: 6
-                            printf("[3] Add a Park\n"); //No floors
-                            printf("[4] Add a Hospital\n"); //Max Floors: 10
-                            printf("[5] Go Back\n");
-                            printf("Enter your choice: ");
-                        
-                            int caseOneBegInput;
-                            scanf("%d", &caseOneBegInput);
 
-                            if (caseOneBegInput == 1 || caseOneBegInput == 2 || caseOneBegInput == 3 || caseOneBegInput == 4 || caseOneBegInput == 5) {
-                                switch (caseOneBegInput) {
-                                    case 1:
-                                        //Initialize all floor array values as -1 and number of floors = 1
-                                        hS[(lastBlankPos)].bd.ap.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.ap.floors->individualSizes, 0, sizeof(hS[(lastBlankPos)].bd.ap.floors->individualSizes));
-                                        memset(hS[(lastBlankPos)].bd.ap.floors->types, -1, sizeof(hS[(lastBlankPos)].bd.ap.floors->types));
-                                        
-                                        addApart(hS, &lastBlankPos);
-                                        break;
-                                    case 2:
-                                        hS[(lastBlankPos)].bd.sc.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.sc.floors, 0, sizeof(hS[(lastBlankPos)].bd.sc.floors));
-                                        addSchool(hS, &lastBlankPos);
-                                        break;
-                                    case 3:
-                                        addPark(hS, &lastBlankPos);
-                                        break;
-                                    case 4:
-                                        hS[(lastBlankPos)].bd.hs.numberOfFloors = 0;
-                                        memset(hS[(lastBlankPos)].bd.hs.floors, 0, sizeof(hS[(lastBlankPos)].bd.hs.floors));
-                                        addHospital(hS, &lastBlankPos);
-                                        break;
-                                    case 5:
-                                        caseOneExit = 1;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            } else {
-                                printf("Invalid input! Taking you back...\n");
-                                continue;
-                            }
-                        }
-                    } else {
-                        printf("Sorry, no more space available.\n");
-                    }
-                    break;
-                case 2:
-                    listItems(name, hS, &lastBlankPos);
-                    break;
-                case 3:
-                    getInfo(name, hS, &lastBlankPos);
-                    break;
-                case 4:
-                    printf("Enter a name or address of a building to search for it: ");
-                    char nameOrAddr[200];
-                    stringInputterBufferClearerVersion(nameOrAddr);
-                    search(nameOrAddr, hS, &lastBlankPos);
-                    break;
-                case 5:
-                    goto Exit;
-                    break;
-                default:
-                    break;
-            }
-
-        } else {
+        switch (beginningInput) {
+            case 1:
+                if (lastBlankPos >= 100) {
+                    printf("Sorry, no more space available.\n");
+                } else {
+                    while (1) {
+                        printf("\nWhat type of space do you want to add?\n");
+                        printf("[1] Add an Apartment Building\n"); //Max floors: 20
+                        printf("[2] Add a School\n"); //Max Floors: 6
+                        printf("[3] Add a Park\n"); //No floors
+                        printf("[4] Add a Hospital\n"); //Max Floors: 10
+                        printf("[5] Go Back\n");
+                        printf("Enter your choice: ");
             
-            printf("Invalid input! Going back...\n");
-            continue;
+                        int caseOneBegInput;
+                        scanf("%d", &caseOneBegInput);
+
+                        switch (caseOneBegInput) {
+                            case 1:
+                            //Initialize all floor array values as -1 and number of floors = 0
+                                hS[(lastBlankPos)].bd.ap.numberOfFloors = 0;
+                                memset(hS[(lastBlankPos)].bd.ap.floors->individualSizes, 0, sizeof(hS[(lastBlankPos)].bd.ap.floors->individualSizes));
+                                memset(hS[(lastBlankPos)].bd.ap.floors->types, -1, sizeof(hS[(lastBlankPos)].bd.ap.floors->types));
+                        
+                                addApart(hS, &lastBlankPos);
+                                break;
+                            case 2:
+                                hS[(lastBlankPos)].bd.sc.numberOfFloors = 0;
+                                memset(hS[(lastBlankPos)].bd.sc.floors, 0, sizeof(hS[(lastBlankPos)].bd.sc.floors));
+
+                                addSchool(hS, &lastBlankPos);
+                                break;
+                            case 3:
+                                addPark(hS, &lastBlankPos);
+                                break;
+                            case 4:
+                                hS[(lastBlankPos)].bd.hs.numberOfFloors = 0;
+                                memset(hS[(lastBlankPos)].bd.hs.floors, 0, sizeof(hS[(lastBlankPos)].bd.hs.floors));
+
+                                addHospital(hS, &lastBlankPos);
+                                break;
+                            case 5:
+                                caseOneFlag = 1;
+                                break;
+                            default:
+                                printf("\nInvalid input! Taking you back...\n");
+                                continue;
+                        }
+
+                        break;
+                    }
+                }
+                if (caseOneFlag == 0) {
+                    break;
+                } else {
+                    continue;
+                }
+            case 2:
+                listItems(name, hS, &lastBlankPos);
+                break;
+            case 3:
+                getInfo(name, hS, &lastBlankPos);
+                break;
+            case 4:
+                printf("Enter a name or address of a building to search for it: ");
+                char nameOrAddr[200];
+                stringInputterBufferClearerVersion(nameOrAddr);
+                search(nameOrAddr, hS, &lastBlankPos);
+                break;
+            case 5:
+                goto Exit;
+                break;
+            default:
+                printf("Invalid input! Going back...\n");
+                continue;
         }
+
+        break; // Exit the loop if a valid choice is made
     }
 
     Exit:
@@ -454,9 +453,15 @@ void addPark(struct Space hS[], int * lastBlankPos) {
 
     while (1) {
         if (kidsPlayGround == 1 || kidsPlayGround == 2) {
-            hS[(*lastBlankPos)].bd.pk.hasKidsPlayground = kidsPlayGround;
-            printf("\nSaved the information.\n");
-            break;
+            if (kidsPlayGround == 1) {
+                hS[(*lastBlankPos)].bd.pk.hasKidsPlayground = 1;
+                printf("\nSaved the information.\n");
+                break;
+            } else {
+                hS[(*lastBlankPos)].bd.pk.hasKidsPlayground = 0;
+                printf("\nSaved the information.\n");
+                break;
+            }
         } else {
             printf("Unexpected input!\nDoes the park have Kids' Playground?\n");
             printf("[1] Yes\n[2] No\nEnter your choice: ");
@@ -536,7 +541,7 @@ void listItems(char * name, struct Space hS[], int * lastBlankPos) {
 
         printf("\n");
 
-        for (int i = 0; i <= (*lastBlankPos); i++) {
+        for (int i = 0; i < (*lastBlankPos); i++) {
             if (hS[i].identifier == 1) {
                 printf("\t%d\t\tApartment\t%s\t%.2lf\t\t\tFloor(s): %d\n", i+1, hS[i].bd.ap.name, hS[i].size, hS[i].bd.ap.numberOfFloors);
             } else if (hS[i].identifier == 2) {
