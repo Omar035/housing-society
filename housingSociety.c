@@ -73,7 +73,7 @@ int main () {
 
     printf("\nName successfully saved!\n");
 
-    int beginningInput, lastBlankPos = 0, caseOneFlag = 0;
+    int beginningInput, lastBlankPos = 0;
     struct Space hS[100]; //At most 100 spaces in our housing society. Housing Society to be called hS in short.
 
     while (1) {
@@ -129,7 +129,7 @@ int main () {
                                 addHospital(hS, &lastBlankPos);
                                 break;
                             case 5:
-                                caseOneFlag = 1;
+                                printf("\nGoing back...\n");
                                 break;
                             default:
                                 printf("\nInvalid input! Taking you back...\n");
@@ -139,23 +139,20 @@ int main () {
                         break;
                     }
                 }
-                if (caseOneFlag == 0) {
-                    break;
-                } else {
-                    continue;
-                }
+                
+                continue;
             case 2:
                 listItems(name, hS, &lastBlankPos);
-                break;
+                continue;
             case 3:
                 getInfo(name, hS, &lastBlankPos);
-                break;
+                continue;
             case 4:
                 printf("Enter a name or address of a building to search for it: ");
                 char nameOrAddr[200];
                 stringInputterBufferClearerVersion(nameOrAddr);
                 search(nameOrAddr, hS, &lastBlankPos);
-                break;
+                continue;
             case 5:
                 goto Exit;
                 break;
@@ -168,7 +165,7 @@ int main () {
     }
 
     Exit:
-        printf("Successfully exited %s\n", name);
+        printf("\nSuccessfully exited %s\n", name);
         return 0;
 }
 
